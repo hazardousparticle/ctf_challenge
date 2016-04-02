@@ -3,6 +3,8 @@
 from socket import *
 from threading import Thread
 
+import clientHandler
+
 
 #listen params
 port = 31337
@@ -10,22 +12,36 @@ host = "0.0.0.0"
 
 max_threads = 20
 
-def randomString(size):
-    return "".join(choice(string.ascii_letters + string.digits) for _ in range(size))
-
-
-def client(clientsock, addr):
-    return 0
-
-
 if __name__=='__main__':
-    listen_addr = (host, port)
-    listensock = socket(AF_INET, SOCK_STREAM)
-    listensock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
     
-    listensock.bind(listen_addr)
-    listensock.listen(max_threads)
-    
+    try:
+        listen_addr = (host, port)
+        listensock = socket(AF_INET, SOCK_STREAM)
+        listensock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 0)
+        
+        listensock.bind(listen_addr)
+        listensock.listen(max_threads)
+        
+        client_threads = []
+        
+        print("listener started")
+        
+    except Exception as e:
+        print(e)
+        exit(-1)
+        
     while True:
-       clientsock, addr = listensock.accept()
-    
+        try:      
+            clientsock, addr = listensock.accept()
+            t = Thread(target = clientHandler.Handler, args = (clientsock, addr))
+            t.start()
+            client_threads.append(t)
+        except KeyboardInterrupt:
+            print("\nTerminiating CTF Server")
+            
+            for threads in client_threads:
+                threads.join()
+            break
+            
+    listensock.close()
+    exit(0)
