@@ -1,6 +1,7 @@
 import random
 
 #return encrypted message bytes
+#args byte array, int
 def cipher(message, key = 0):
     
     crypted = ""
@@ -27,7 +28,8 @@ def cipher(message, key = 0):
         
     return bytes(crypted, "ascii")
 
-#retrun plaintext message string
+#return plaintext message string
+#args: string, int
 def decipher(ciphertext, key):
     plain = ""
     
@@ -58,14 +60,14 @@ def decipher(ciphertext, key):
     return plain
 
 
-message = b'#$=!,abcdefghijhlmnopqrstuvwxyzABCDEFGHIJKLMNOPQSTUVWXYZ0123456789'
+#message = b'#$=!,abcdefghijhlmnopqrstuvwxyzABCDEFGHIJKLMNOPQSTUVWXYZ0123456789'
 
-key = random.randint(500, 1000)
-print(key)
+#key = random.randint(500, 1000)
+#print(key)
 
-ciphertext = cipher(message, key)
-print(ciphertext)
+#ciphertext = cipher(message, key)
+#print(ciphertext)
 
-message = decipher(ciphertext, key)
+#message = decipher(ciphertext, key)
 
-print(message)
+#print(message)
