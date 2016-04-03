@@ -2,9 +2,11 @@ from socket import *
 import random
 import string
 from easyCrypto import cipher
+from Crypto.Cipher import AES
+import base64
 
 #length of plain text message
-MESSAGE_LENGTH=40
+MESSAGE_LENGTH=32
 
 
 #add to start and end of message then encrypt.
@@ -16,33 +18,62 @@ KNOWN_MSG_END=b"=WORD!$#"
 MIN_KEY=500
 MAX_KEY=1000
 
+#message which must be AES'd
+KNOWN_MESSAGE=b"Let Me In!"
+
+
 def Handler(clientsock, addr):
     print(addr)
     print("connected")
     
     #generate the randm message and encrypt it
-    message = KNOWN_MSG_START + randomString(MESSAGE_LENGTH) + KNOWN_MSG_END
+    message = randomString(MESSAGE_LENGTH)
+    
+    crypted = KNOWN_MSG_START + message + KNOWN_MSG_END
     
     random.seed()
    
     cipher_key = random.randint(MIN_KEY, MAX_KEY)
-    crypted_message = cipher(message, cipher_key)
+    crypted_message = cipher(crypted, cipher_key)
     
     clientsock.send(crypted_message + b'\n')
     
+    #once the easy key is found and the message is decrypted,
+    #the contestant must use the secret message as the key
+    #to encrypt the string KNOWN_MESSAGE using AES-256 CBC.
+    #the KNOWN_MESSAGE must be padded a the end with \x00's until its exactly 16 bytes
+    #the AES IV will be a 16 byte string starting with the found key and then padded with '0's
+    #once encrypted, the cipher text will be sent back base64-ed
+    
+    
     #wait for an answer
+    response = b"message"
     
     
+    #response must be base64 encoded.
+    response = base64.b64decode(response)
     
     
-    #check the answer 
+    #decrypt the answer
+    AES_IV = str(cipher_key) + str(0).zfill(16-len(cipher_key))
+    suite = AES.new(message, AES.MODE_CBC, AES_IV)
+    
+    #the contestant wins if i can decrypt their response and obtain KNOWN_MESSAGE
+    plaintext = suite.decrypt(response)
+    
+    if plaintext == KNOWN_MESSAGE + bytes([0] * (16 - len(KNOWN_MESSAGE))):
+        #success
+        clientsock.send(b"Success!!!\n")
+        print(addr)
+        print("successful")
+    
     
 
     if True: #timedOut()
         clientsock.send(b'Too Slow\n')
 
-        clientsock.shutdown(SHUT_RDWR)
-        clientsock.close()
+    clientsock.shutdown(SHUT_RDWR)
+    clientsock.close()
 
 
 def randomString(size):
