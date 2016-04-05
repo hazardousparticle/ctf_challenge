@@ -24,7 +24,7 @@ if __name__=='__main__':
         
         client_threads = []
         
-        print("listener started")
+        print("listener started\n")
         
     except Exception as e:
         print(e)
@@ -37,7 +37,7 @@ if __name__=='__main__':
             t.start()
             client_threads.append(t)
         except KeyboardInterrupt:
-            print("\nTerminiating CTF Server")
+            print("\nTerminiating CTF Server\n")
             
             for threads in client_threads:
                 threads.join()
