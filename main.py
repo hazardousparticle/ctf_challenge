@@ -7,7 +7,7 @@ import clientHandler
 
 
 #listen params
-port = 31337
+port = 33333
 host = "0.0.0.0"
 
 max_threads = 20
@@ -24,7 +24,7 @@ if __name__=='__main__':
         
         client_threads = []
         
-        print("listener started\n")
+        print("listener started on port: " + str(port) +"\n")
         
     except Exception as e:
         print(e)
@@ -37,10 +37,11 @@ if __name__=='__main__':
             t.start()
             client_threads.append(t)
         except KeyboardInterrupt:
-            print("\nTerminiating CTF Server\n")
+            print("\nTerminating CTF Server\n")
             
-            for threads in client_threads:
-                threads.join()
+            for index, thread in enumerate(client_threads):
+                thread.join()
+                print("Thread closed: " + str(index))
             break
             
     listensock.close()
