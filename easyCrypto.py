@@ -1,4 +1,5 @@
 import random
+#from helperStuff import randomKey
 
 #return encrypted message bytes
 #args byte array, int
@@ -12,7 +13,7 @@ def cipher(message, key = 0):
         
         s = (c + key)
         
-        # maximum of a standard char + key =  b0000 0011 1111 1111    
+        # maximum of a standard char + key =  b0000 0011 1111 1111
         
         left = (s & (0x03 << 8)) >> 8
         
@@ -59,15 +60,15 @@ def decipher(ciphertext, key):
     
     return plain
 
+#def test:
+#    message = b'#$=!,abcdefghijhlmnopqrstuvwxyzABCDEFGHIJKLMNOPQSTUVWXYZ0123456789'
 
-#message = b'#$=!,abcdefghijhlmnopqrstuvwxyzABCDEFGHIJKLMNOPQSTUVWXYZ0123456789'
+#    key = raqndomKey()
+#    print(key)
 
-#key = random.randint(500, 1000)
-#print(key)
+#    ciphertext = cipher(message, key)
+#    print(ciphertext)
 
-#ciphertext = cipher(message, key)
-#print(ciphertext)
+#    message = decipher(ciphertext, key)
 
-#message = decipher(ciphertext, key)
-
-#print(message)
+#    print(message)

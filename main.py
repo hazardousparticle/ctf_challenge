@@ -7,16 +7,28 @@ from clientHandler import Client
 
 
 #listen params
-port = 3333
+port = 37133 #TODO: make it custoizable using command line args
 host = "0.0.0.0"
+host6 = "::"
 
 max_threads = 20
+use_ip6 = False #TODO: autmatically detect this
+
 
 if __name__=='__main__':
     
-    try:
+    if use_ip6:
+        print("IPv6 is enabled.")
+        listen_addr = (host6, port, 0, 0)
+    else:
         listen_addr = (host, port)
-        listensock = socket(AF_INET, SOCK_STREAM)
+        
+    try:
+        if use_ip6:
+            listensock = socket(AF_INET6, SOCK_STREAM)
+        else:
+            listensock = socket(AF_INET, SOCK_STREAM)
+        
         listensock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 0)
         
         listensock.bind(listen_addr)
@@ -49,3 +61,4 @@ if __name__=='__main__':
             
     listensock.close()
     exit(0)
+

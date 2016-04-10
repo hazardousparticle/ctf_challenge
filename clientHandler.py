@@ -23,6 +23,7 @@ class Client(object):
         self.timeOut_signal.clear()
         sleep(secs)
         self.timeOut_signal.set()
+        #TODO: fix this so that it aborts the sleep when the client handler closes
 
     def Handler(self, clientsock, addr):
         print(str(addr) + " Connected")
@@ -73,7 +74,13 @@ class Client(object):
                     if not response:
                         continue
                     else:
-                        print(str(addr) + " sends " + str(response, "ascii"))
+                        if response[-1] == ord('\n'):
+                            # remove new line from the end
+                            response = response[:-2]
+                        
+                        print(str(addr) + " sends " + str(response, "ascii") +\
+                        "\t(" + str(len(response)) + " bytes)")
+                        
                         break
                 except socket.error as e:
                     err = e.args[0]
@@ -114,8 +121,18 @@ class Client(object):
         
         #t.join()
         
-        clientsock.shutdown(socket.SHUT_RDWR)
+        try:
+            clientsock.shutdown(socket.SHUT_RDWR)
+        except OSError as e:
+            err = e.args[0]
+            if err == errno.ENOTCONN:
+                #client left early
+                print(str(addr) + " Got scared off and quit\n")
+                pass
+            else:
+                raise Exception(e)
+
         clientsock.close()
-        
+            
         print(str(addr) + " Socket closed")
 

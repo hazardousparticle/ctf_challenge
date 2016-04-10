@@ -13,7 +13,7 @@ def randomString(size):
     
     return bytes(msg, "ascii")
 
-#excpetion to call when time limit has passed
+#exception to call when time limit has passed
 class TimeExpired(Exception): pass
 
 #key for easy crypto algo
