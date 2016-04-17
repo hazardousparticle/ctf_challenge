@@ -1,0 +1,57 @@
+Requirements (hosting):
+    1. Linux
+    2. python 3.4
+    3. PyCrypto library
+    
+Requirements (competing):
+    1. a brain and computer
+
+The challenge:
+    Part 1:
+        - Connect to <ip address> port 37133 tcp
+        - once connected, you will receive an encrypted message
+        - your job is to crack the encryption to reveal the message in plain text
+        - the cipher text is in the form:
+            .XXXXX.XXXXX.XXXXX.XXXXX.......XXXXX
+        - Where the X's are digits 0 - 9
+        
+        - <encryption algorithm>
+        
+        - The Key is a number between 400 and (0x03ff - 'z')
+        - The key has been chosen in this range to make them maximum value of each
+          character 0000 0011 1111 1111 (0x3ff)
+        - You will know when you found the right key as the plain text will:
+            - start with:
+                #$!PASS=
+            - and ends with:
+                =WORD!$#
+        - The important part is the stuff in between. This will be used in part 2
+        - Each connection will generate a new secret message and encryption key
+    
+    Part 2:
+        - Once the key has been found in part 1 and the plain text revealed:
+          You must send back to the server the string:
+               Let Me In!
+         
+        - simple enough right? The catch is you must encrypt this string using AES 256 CBC
+          and base64 encode the new cipher text before sending it back
+        - The AES key will be the decrypted message from part 1 (32 bytes)
+        - The AES initialization Vector will be a string of the key found in part 1 padded with '0's
+          until it is 16 bytes long. For example "4440000000000000"
+        - If you can't encrypt the mesage cause it is too short,
+          pad it with zeroes until it is exaclty 16 bytes
+        - If I can decrypt the cipher you win
+        - Oh yeah and time is limited
+    
+    Hints:
+        - All communications with the CTF server are ascii encoded and terminated with a newline '\n'
+        - byte arrays and strings are not always the same
+        - The CTF will keep a log of all winners
+        
+
+Notes for the host:
+    - options of the challenge can be modified in constants.python
+    - allow the listen port in the firewall
+    
+
+    

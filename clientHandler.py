@@ -13,11 +13,8 @@ from constants import *
 
 
 class Client(object):
-    def __init__(self): #, self.clientsock, addr):
-#        self.clientsock = clientsock
-#        self.addr = addr
+    def __init__(self):
         self.timeOut_signal = Event()
-        
 
     def timeOut(self, secs = time_limit):
         self.timeOut_signal.clear()
@@ -57,7 +54,7 @@ class Client(object):
         t.start()
         
         buffer_size = 500
-        
+    
         try:
             
             clientsock.setblocking(False)
@@ -76,9 +73,10 @@ class Client(object):
                     else:
                         if response[-1] == ord('\n'):
                             # remove new line from the end
-                            response = response[:-2]
+                            response = response[:-1]
                         
-                        print(str(addr) + " sends " + str(response, "ascii") +\
+                        print(str(addr) + " sends " +\
+                        "".join(s for s in str(response) if s in string.printable ) +\
                         "\t(" + str(len(response)) + " bytes)")
                         
                         break
@@ -96,7 +94,7 @@ class Client(object):
             #decrypt the answer
             suite = AES.new(message, AES.MODE_CBC, AES_IV)
             
-            #the contestant wins if i can decrypt their response and obtain KNOWN_MESSAGE
+            #the contestant wins if I can decrypt their response and obtain KNOWN_MESSAGE
             plaintext = suite.decrypt(response)
 
             #still have time
@@ -104,6 +102,10 @@ class Client(object):
                 #success
                 clientsock.send(b"Success!!!\n")
                 print(str(addr) + " Successful")
+                logfile = open(log_file_name, 'a')
+                logfile.write(str(addr) + " " + str(message, "ascii") +\
+                " " + str(cipher_key) + "\n")
+                logfile.close()
             else:
                 raise ValueError("Plaintext doesnt match")
         except (binascii.Error, ValueError):

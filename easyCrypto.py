@@ -60,15 +60,3 @@ def decipher(ciphertext, key):
     
     return plain
 
-#def test:
-#    message = b'#$=!,abcdefghijhlmnopqrstuvwxyzABCDEFGHIJKLMNOPQSTUVWXYZ0123456789'
-
-#    key = raqndomKey()
-#    print(key)
-
-#    ciphertext = cipher(message, key)
-#    print(ciphertext)
-
-#    message = decipher(ciphertext, key)
-
-#    print(message)

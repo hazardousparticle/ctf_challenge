@@ -5,26 +5,26 @@ from threading import Thread
 
 from clientHandler import Client
 
+import constants
+
 
 #listen params
-port = 37133 #TODO: make it custoizable using command line args
+port = constants.port #TODO: make it custoizable using command line args
 host = "0.0.0.0"
 host6 = "::"
 
-max_threads = 20
-use_ip6 = False #TODO: autmatically detect this
-
+max_threads = constants.max_threads
 
 if __name__=='__main__':
     
-    if use_ip6:
+    if constants.use_ip6:
         print("IPv6 is enabled.")
         listen_addr = (host6, port, 0, 0)
     else:
         listen_addr = (host, port)
         
     try:
-        if use_ip6:
+        if constants.use_ip6:
             listensock = socket(AF_INET6, SOCK_STREAM)
         else:
             listensock = socket(AF_INET, SOCK_STREAM)
@@ -58,7 +58,7 @@ if __name__=='__main__':
                 thread.join()
                 print("Thread closed: " + str(index))
             break
-            
+
     listensock.close()
     exit(0)
 

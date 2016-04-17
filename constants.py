@@ -1,6 +1,7 @@
 #constant variables used by the ctf challenge
 
 #length of plain text message
+# should be 16, 24 or 32 bytes for AES 128, 192 and 256
 MESSAGE_LENGTH=32
 
 
@@ -19,3 +20,12 @@ KNOWN_MESSAGE=b"Let Me In!"
 
 #time limit
 time_limit = 30
+
+#log file:
+log_file_name = "winners.log"
+
+
+#tcp server settings
+port = 37133
+max_threads = 20
+use_ip6 = False #TODO: automatically detect this
