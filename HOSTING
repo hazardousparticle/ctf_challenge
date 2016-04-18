@@ -9,6 +9,7 @@ Notes for the host:
     - options of the challenge can be modified in constants.py
     - allow the listen port in the firewall
     - message lengths of 16, 24 or 32 bytes are permitted only
+    - CTRL + C will terminate the program
     
 Tested on python 3.4, 3.5
 

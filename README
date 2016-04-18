@@ -45,7 +45,7 @@ The challenge:
         - If you can't encrypt the mesage cause it is too short,
           pad it with zeroes until it is exaclty 16 bytes
         - If I can decrypt the cipher you win
-        - Oh yeah and time is limited
+        - Oh yeah and time is limited, you will be disconnected if time runs out
     
     Hints:
         - All communications with the CTF server are ascii encoded and terminated with a newline '\n'
