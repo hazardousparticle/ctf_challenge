@@ -25,7 +25,7 @@ def cipher(message, key = 0):
         c1 = c1 ^ key
         c2 = c2 ^ key
         
-        crypted = crypted + "." + str(c1) + "." + str(c2)
+        crypted = crypted + "." + str(c2) + "." + str(c1)
         
     return bytes(crypted, "ascii")
 
@@ -42,10 +42,10 @@ def decipher(ciphertext, key):
     
     for i in range(int(len(values)/2)):
     
-        left = int(values[i *2]) ^ key
+        left = int(values[i * 2 + 1]) ^ key
         left = (left & 0x0003) << 8
         
-        right = int(values[i*2 + 1]) & 0xff00
+        right = int( values[i * 2] ) & 0xff00
         right = right ^ key
         right = right >> 8
         

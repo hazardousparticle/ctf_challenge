@@ -1,10 +1,5 @@
-Requirements (hosting):
-    1. Linux
-    2. python 3.4
-    3. PyCrypto library
-    
 Requirements (competing):
-    1. a brain and computer
+    a brain and computer
 
 The challenge:
     Part 1:
@@ -13,17 +8,26 @@ The challenge:
         - your job is to crack the encryption to reveal the message in plain text
         - the cipher text is in the form:
             .XXXXX.XXXXX.XXXXX.XXXXX.......XXXXX
-        - Where the X's are digits 0 - 9
+        - Where the X's are digits 0 - 9 forming numbers which are 16 bits wide and unsigned
         
-        - <encryption algorithm>
+        - encryption performed as follows:
+          - for each char in the message:
+             - The key is added to the ascii value
+             - the result is split into two halves
+             - the left chunk is shifted right 8 places
+             - the right chuck is shifted left 8 places
+             - all unused bits in both chucks are filled with random bits
+             - finally both are xor'ed with the key
+             - each character is outputed in the form:
+                 .right.left
         
         - The Key is a number between 400 and (0x03ff - 'z')
-        - The key has been chosen in this range to make them maximum value of each
+        - The key has been chosen in this range to make the maximum value of each
           character 0000 0011 1111 1111 (0x3ff)
         - You will know when you found the right key as the plain text will:
-            - start with:
+            start with:
                 #$!PASS=
-            - and ends with:
+            and end with:
                 =WORD!$#
         - The important part is the stuff in between. This will be used in part 2
         - Each connection will generate a new secret message and encryption key
@@ -46,12 +50,5 @@ The challenge:
     Hints:
         - All communications with the CTF server are ascii encoded and terminated with a newline '\n'
         - byte arrays and strings are not always the same
-        - The CTF will keep a log of all winners
-        
+        - The CTF server will keep a log of all winners
 
-Notes for the host:
-    - options of the challenge can be modified in constants.python
-    - allow the listen port in the firewall
-    
-
-    

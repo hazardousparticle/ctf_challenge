@@ -1,0 +1,14 @@
+HOSTING README
+
+Requirements (hosting):
+    1. Linux
+    2. Python 3.4+
+    3. PyCrypto library
+
+Notes for the host:
+    - options of the challenge can be modified in constants.py
+    - allow the listen port in the firewall
+    - message lengths of 16, 24 or 32 bytes are permitted only
+    
+Tested on python 3.4, 3.5
+
