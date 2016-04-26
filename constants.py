@@ -18,8 +18,8 @@ MAX_KEY=(0x03ff - ord('z'))
 #message which must be AES'd
 KNOWN_MESSAGE=b"Let Me In!"
 
-#time limit
-time_limit = 30
+#time limit (secs) takes about 10 ms to bruteforce
+time_limit = 1
 
 #log file:
 log_file_name = "winners.log"

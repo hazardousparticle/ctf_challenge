@@ -30,7 +30,7 @@ def cipher(message, key = 0):
     return bytes(crypted, "ascii")
 
 #return plaintext message string
-#args: string, int
+#args: byte array, int
 def decipher(ciphertext, key):
     plain = ""
     
