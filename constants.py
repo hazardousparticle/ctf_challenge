@@ -19,7 +19,7 @@ MAX_KEY=(0x03ff - ord('z'))
 KNOWN_MESSAGE=b"Let Me In!"
 
 #time limit (secs) takes about 10 ms to bruteforce
-time_limit = 1
+time_limit = 15
 
 #log file:
 log_file_name = "winners.log"

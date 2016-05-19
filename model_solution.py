@@ -90,7 +90,7 @@ if __name__=='__main__':
                 
                 else:
                     client.close()
-                    print("Gay, we lost.")
+                    print("Oh noes!, we lost.")
                     exit(1)
                 break
         
